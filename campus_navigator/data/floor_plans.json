@@ -1,0 +1,70 @@
+{
+  "building_id": "FET_MAIN",
+  "disclaimer": "DEMONSTRATION FLOOR PLAN — NOT AN OFFICIAL FET FLOOR PLAN",
+  "floors": {
+    "0": {
+      "floor_id": "FET_G",
+      "level": 0,
+      "name": "Ground Floor",
+      "dimensions": { "width": 100, "height": 100 },
+      "background_image": null,
+      "rooms_geometry": [
+        { "id": "ROOM_G_RAMP_LOBBY", "label": "West Ramp Lobby", "x": 10.0, "y": 50.0, "type": "BUILDING_ENTRANCE", "step_free": true },
+        { "id": "ROOM_G_FRONT_PORTICO", "label": "Front Portico (Stepped)", "x": 50.0, "y": 10.0, "type": "BUILDING_ENTRANCE", "step_free": false },
+        { "id": "ROOM_G_ATRIUM", "label": "Welcome Atrium", "x": 50.0, "y": 50.0, "type": "CORRIDOR", "step_free": true },
+        { "id": "ROOM_G_RECEPTION", "label": "FET Information Desk", "x": 65.0, "y": 45.0, "type": "OFFICE", "step_free": true },
+        { "id": "ROOM_G_ELEVATOR_BAY", "label": "Elevator Bank A", "x": 40.0, "y": 60.0, "type": "ELEVATOR", "step_free": true },
+        { "id": "ROOM_G_STAIRWELL", "label": "Central Stairwell A", "x": 60.0, "y": 60.0, "type": "STAIRCASE", "step_free": false },
+        { "id": "ROOM_G_RESTROOM_ACC", "label": "Accessible Restroom G-WC01", "x": 30.0, "y": 70.0, "type": "RESTROOM", "step_free": true },
+        { "id": "ROOM_G_AUDITORIUM", "label": "Seminar Hall 01", "x": 80.0, "y": 50.0, "type": "CLASSROOM", "step_free": true },
+        { "id": "ROOM_G_FIRE_EXIT", "label": "East Emergency Ramp Exit", "x": 90.0, "y": 80.0, "type": "EMERGENCY_EXIT", "step_free": true }
+      ]
+    },
+    "1": {
+      "floor_id": "FET_1",
+      "level": 1,
+      "name": "First Floor",
+      "dimensions": { "width": 100, "height": 100 },
+      "background_image": null,
+      "rooms_geometry": [
+        { "id": "ROOM_1_ELEVATOR_BAY", "label": "Elevator Bank A (1F)", "x": 40.0, "y": 60.0, "type": "ELEVATOR", "step_free": true },
+        { "id": "ROOM_1_STAIRWELL", "label": "Central Stairwell A (1F)", "x": 60.0, "y": 60.0, "type": "STAIRCASE", "step_free": false },
+        { "id": "ROOM_1_CONCOURSE", "label": "Academic Concourse 1F", "x": 50.0, "y": 50.0, "type": "CORRIDOR", "step_free": true },
+        { "id": "ROOM_1_CS_LAB_101", "label": "Computer Science & AI Lab (Room 101)", "x": 20.0, "y": 50.0, "type": "LABORATORY", "step_free": true },
+        { "id": "ROOM_1_CS_LAB_102", "label": "Data Engineering Lab (Room 102)", "x": 20.0, "y": 30.0, "type": "LABORATORY", "step_free": true },
+        { "id": "ROOM_1_FACULTY_OFFICE", "label": "Faculty Cabins (Rooms 108-112)", "x": 75.0, "y": 50.0, "type": "OFFICE", "step_free": true },
+        { "id": "ROOM_1_RESTROOM_ACC", "label": "Accessible Restroom 1-WC01", "x": 30.0, "y": 70.0, "type": "RESTROOM", "step_free": true }
+      ]
+    },
+    "2": {
+      "floor_id": "FET_2",
+      "level": 2,
+      "name": "Second Floor",
+      "dimensions": { "width": 100, "height": 100 },
+      "background_image": null,
+      "rooms_geometry": [
+        { "id": "ROOM_2_ELEVATOR_BAY", "label": "Elevator Bank A (2F)", "x": 40.0, "y": 60.0, "type": "ELEVATOR", "step_free": true },
+        { "id": "ROOM_2_STAIRWELL", "label": "Central Stairwell A (2F)", "x": 60.0, "y": 60.0, "type": "STAIRCASE", "step_free": false },
+        { "id": "ROOM_2_CONCOURSE", "label": "Main Corridor 2F", "x": 50.0, "y": 50.0, "type": "CORRIDOR", "step_free": true },
+        { "id": "ROOM_2_LECTURE_201", "label": "Smart Lecture Hall 201", "x": 20.0, "y": 50.0, "type": "CLASSROOM", "step_free": true },
+        { "id": "ROOM_2_ELECTRONICS_LAB", "label": "IoT & Embedded Lab (Room 205)", "x": 80.0, "y": 50.0, "type": "LABORATORY", "step_free": true },
+        { "id": "ROOM_2_RESTROOM_ACC", "label": "Accessible Restroom 2-WC01", "x": 30.0, "y": 70.0, "type": "RESTROOM", "step_free": true }
+      ]
+    },
+    "3": {
+      "floor_id": "FET_3",
+      "level": 3,
+      "name": "Third Floor",
+      "dimensions": { "width": 100, "height": 100 },
+      "background_image": null,
+      "rooms_geometry": [
+        { "id": "ROOM_3_ELEVATOR_BAY", "label": "Elevator Bank A (3F)", "x": 40.0, "y": 60.0, "type": "ELEVATOR", "step_free": true },
+        { "id": "ROOM_3_STAIRWELL", "label": "Central Stairwell A (3F)", "x": 60.0, "y": 60.0, "type": "STAIRCASE", "step_free": false },
+        { "id": "ROOM_3_CONCOURSE", "label": "Innovation Concourse 3F", "x": 50.0, "y": 50.0, "type": "CORRIDOR", "step_free": true },
+        { "id": "ROOM_3_DEANS_SUITE", "label": "Dean's Executive Suite (Room 301)", "x": 20.0, "y": 50.0, "type": "OFFICE", "step_free": true },
+        { "id": "ROOM_3_PROJECT_STUDIO", "label": "Capstone Projects Studio (Room 310)", "x": 80.0, "y": 50.0, "type": "LABORATORY", "step_free": true },
+        { "id": "ROOM_3_RESTROOM_ACC", "label": "Accessible Restroom 3-WC01", "x": 30.0, "y": 70.0, "type": "RESTROOM", "step_free": true }
+      ]
+    }
+  }
+}
