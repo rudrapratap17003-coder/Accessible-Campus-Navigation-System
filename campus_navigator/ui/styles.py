@@ -1,39 +1,85 @@
 """Accessible CSS styling and design system for Accessible Campus Navigator.
 
 Provides:
-- Dark navy sidebar (#0a1128 / #101c3d).
-- Neutral light main workspace (#f8fafc / #ffffff) with high-contrast elements.
-- High-contrast buttons, badges, and accessible typography (Inter / System UI).
-- WCAG AAA compliant color contrasts.
-- Restrained accent colors (#1d4ed8 royal blue, #047857 emerald, #b45309 amber, #b91c1c crimson).
-- Clear visual hierarchy with distinct cards and callouts.
-- Responsive layout containers and clean status pills.
+- Design system CSS variables (--app-background, --surface-background, --text-primary, etc.)
+- Dark navy sidebar (#091224) with crisp, high-contrast text (#e2e8f0) and blue headings (#60a5fa).
+- Light, neutral main workspace (#f8fafc) with slate text (#0f172a).
+- Explicit high-contrast text styling for all inputs, selectboxes, dropdowns, expanders, alerts, metrics, tables, tabs, and buttons.
+- Elimination of invisible/white-on-white and black-on-black text bugs.
+- WCAG AAA compliant contrasts and responsive cards.
 """
 
 NAVIGATOR_CUSTOM_CSS = """
 <style>
-/* Base Typography & Color System */
+/* =============================================================
+   1. CSS VARIABLES & DESIGN SYSTEM TOKENS
+   ============================================================= */
+:root {
+    --app-background: #f8fafc;
+    --surface-background: #ffffff;
+    --surface-elevated: #f1f5f9;
+    --sidebar-background: #091224;
+    --sidebar-border: #1e293b;
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #64748b;
+    --text-inverse: #f8fafc;
+    --border-color: #cbd5e1;
+    --primary-color: #1e3a8a;
+    --primary-hover: #172554;
+    --accent-blue: #2563eb;
+    --success-color: #047857;
+    --success-bg: #ecfdf5;
+    --warning-color: #b45309;
+    --warning-bg: #fffbeb;
+    --error-color: #b91c1c;
+    --error-bg: #fef2f2;
+}
+
+/* =============================================================
+   2. TYPOGRAPHY & APP WORKSPACE
+   ============================================================= */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 html, body, [class*="css"], .stMarkdown {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
 }
 
-/* Background Workspace */
 .stApp {
-    background-color: #f8fafc;
+    background-color: var(--app-background) !important;
+    color: var(--text-primary) !important;
+}
+
+/* Main workspace headings */
+.stApp h1, .stApp h2, .stApp h3 {
+    color: #0f172a !important;
+    font-weight: 700;
+}
+.stApp h4, .stApp h5, .stApp h6 {
+    color: #1e293b !important;
+    font-weight: 600;
+}
+
+/* Paragraphs & Markdown text in main workspace */
+.stApp .main [data-testid="stMarkdownContainer"] p,
+.stApp .main [data-testid="stMarkdownContainer"] span,
+.stApp .main [data-testid="stMarkdownContainer"] li {
     color: #0f172a;
 }
 
-/* Dark Navy Sidebar */
+/* =============================================================
+   3. SIDEBAR NAVIGATION & CONTRAST
+   ============================================================= */
 [data-testid="stSidebar"] {
-    background-color: #091224 !important;
-    border-right: 1px solid #1e293b;
+    background-color: var(--sidebar-background) !important;
+    border-right: 1px solid var(--sidebar-border) !important;
 }
 
 [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] p,
 [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] span,
-[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] li {
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] li,
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] label,
+[data-testid="stSidebar"] label {
     color: #e2e8f0 !important;
 }
 
@@ -42,23 +88,241 @@ html, body, [class*="css"], .stMarkdown {
 [data-testid="stSidebar"] h3,
 [data-testid="stSidebar"] h4 {
     color: #60a5fa !important;
-    font-weight: 700;
+    font-weight: 700 !important;
 }
 
-/* Sidebar Radio Navigation Items */
+/* Radio buttons in Sidebar */
 [data-testid="stSidebar"] .stRadio label {
-    background-color: transparent;
+    background-color: transparent !important;
     padding: 6px 10px;
     border-radius: 8px;
     transition: all 0.2s ease;
     cursor: pointer;
+    color: #f1f5f9 !important;
 }
 
 [data-testid="stSidebar"] .stRadio label:hover {
     background-color: #1e293b !important;
+    color: #ffffff !important;
 }
 
-/* Header Banner Component */
+/* Selectbox inside sidebar */
+[data-testid="stSidebar"] [data-baseweb="select"] {
+    background-color: #111e38 !important;
+    border: 1px solid #334155 !important;
+    color: #ffffff !important;
+    border-radius: 8px;
+}
+[data-testid="stSidebar"] [data-baseweb="select"] * {
+    color: #ffffff !important;
+}
+
+/* =============================================================
+   4. FORM CONTROLS: INPUTS, SELECTBOXES, TEXTAREAS & DROPDOWNS
+   ============================================================= */
+/* Labels for all form controls */
+label[data-testid="stWidgetLabel"],
+label[data-testid="stWidgetLabel"] p,
+label[data-testid="stWidgetLabel"] span {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #0f172a !important;
+}
+
+/* Text Input & Number Input */
+input[type="text"], input[type="number"], input[type="password"] {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border: 1.5px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
+
+input[type="text"]:focus, input[type="number"]:focus, input[type="password"]:focus {
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2) !important;
+}
+
+/* Text Area */
+textarea {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border: 1.5px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    font-size: 14px !important;
+}
+
+/* BaseWeb Select Box (Dropdowns) */
+div[data-baseweb="select"] {
+    background-color: #ffffff !important;
+    border: 1.5px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+}
+
+div[data-baseweb="select"] * {
+    color: #0f172a !important;
+    font-weight: 500 !important;
+}
+
+/* Dropdown popover list menu options */
+ul[data-baseweb="menu"],
+div[data-baseweb="popover"],
+div[data-baseweb="popover"] ul {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+}
+
+li[data-baseweb="menu-item"] {
+    color: #0f172a !important;
+    background-color: #ffffff !important;
+    padding: 8px 12px !important;
+}
+
+li[data-baseweb="menu-item"]:hover,
+li[data-baseweb="menu-item"][aria-selected="true"] {
+    background-color: #e2e8f0 !important;
+    color: #0f172a !important;
+}
+
+/* MultiSelect Tags */
+span[data-baseweb="tag"] {
+    background-color: #e0e7ff !important;
+    color: #1e3a8a !important;
+    border: 1px solid #c7d2fe !important;
+    font-weight: 600 !important;
+    border-radius: 6px !important;
+}
+span[data-baseweb="tag"] * {
+    color: #1e3a8a !important;
+}
+
+/* =============================================================
+   5. BUTTONS: PRIMARY & SECONDARY
+   ============================================================= */
+button[kind="primary"],
+button[data-testid="baseButton-primary"] {
+    background-color: #1e3a8a !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+    border: none !important;
+    padding: 8px 18px !important;
+    box-shadow: 0 2px 4px rgba(30, 58, 138, 0.25) !important;
+    transition: background-color 0.15s ease !important;
+}
+
+button[kind="primary"]:hover,
+button[data-testid="baseButton-primary"]:hover {
+    background-color: #172554 !important;
+    color: #ffffff !important;
+}
+
+button[kind="secondary"],
+button[data-testid="baseButton-secondary"] {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    font-weight: 600 !important;
+    border: 1.5px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    padding: 8px 18px !important;
+    transition: all 0.15s ease !important;
+}
+
+button[kind="secondary"]:hover,
+button[data-testid="baseButton-secondary"]:hover {
+    background-color: #f1f5f9 !important;
+    border-color: #94a3b8 !important;
+    color: #0f172a !important;
+}
+
+/* Button text color enforcement */
+button p, button span {
+    color: inherit !important;
+}
+
+/* =============================================================
+   6. METRIC CARDS & EXPANDERS
+   ============================================================= */
+div[data-testid="stMetric"] {
+    background-color: #ffffff !important;
+    border: 1.5px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    padding: 14px 18px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+
+div[data-testid="stMetricLabel"] {
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: #475569 !important;
+}
+
+div[data-testid="stMetricValue"] {
+    font-size: 26px !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+}
+
+/* Expanders */
+div[data-testid="stExpander"] {
+    background-color: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 10px !important;
+    margin-bottom: 14px !important;
+}
+
+div[data-testid="stExpander"] details summary {
+    font-weight: 600 !important;
+    color: #0f172a !important;
+}
+
+div[data-testid="stExpander"] details summary p,
+div[data-testid="stExpander"] details summary span {
+    color: #0f172a !important;
+    font-weight: 600 !important;
+}
+
+/* =============================================================
+   7. TABS, TABLES & DATAFRAMES
+   ============================================================= */
+/* Tabs */
+button[data-baseweb="tab"] {
+    font-weight: 600 !important;
+    color: #475569 !important;
+}
+
+button[data-baseweb="tab"][aria-selected="true"] {
+    color: #1e3a8a !important;
+    border-bottom-color: #1e3a8a !important;
+}
+
+/* DataFrames and Tables */
+div[data-testid="stDataFrame"] {
+    background-color: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+}
+
+/* =============================================================
+   8. ALERTS & NOTIFICATIONS
+   ============================================================= */
+div[data-testid="stAlert"] {
+    border-radius: 8px !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+}
+
+div[data-testid="stAlert"] p,
+div[data-testid="stAlert"] span {
+    color: inherit !important;
+}
+
+/* =============================================================
+   9. HERO BANNER, CARDS, BADGES & STEPS
+   ============================================================= */
 .campus-hero-banner {
     background: linear-gradient(135deg, #091224 0%, #172554 60%, #1e3a8a 100%);
     color: #ffffff;
@@ -146,7 +410,7 @@ html, body, [class*="css"], .stMarkdown {
 }
 
 .nav-card p {
-    color: #475569;
+    color: #334155;
     font-size: 14px;
     line-height: 1.5;
     margin: 0;
@@ -212,54 +476,6 @@ html, body, [class*="css"], .stMarkdown {
 .route-step-card.stairs {
     border-left-color: #dc2626;
     background-color: #fef2f2;
-}
-
-/* High Contrast Buttons */
-button[kind="primary"] {
-    background-color: #1e3a8a !important;
-    color: #ffffff !important;
-    font-weight: 600 !important;
-    border-radius: 8px !important;
-    border: none !important;
-    padding: 8px 20px !important;
-    box-shadow: 0 2px 4px rgba(30, 58, 138, 0.2) !important;
-}
-
-button[kind="primary"]:hover {
-    background-color: #172554 !important;
-}
-
-button[kind="secondary"] {
-    background-color: #f1f5f9 !important;
-    color: #0f172a !important;
-    font-weight: 600 !important;
-    border: 1px solid #cbd5e1 !important;
-    border-radius: 8px !important;
-}
-
-button[kind="secondary"]:hover {
-    background-color: #e2e8f0 !important;
-}
-
-/* Accessible metric cards */
-div[data-testid="stMetric"] {
-    background-color: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    padding: 14px 18px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-}
-
-div[data-testid="stMetricLabel"] {
-    font-size: 13px !important;
-    font-weight: 600 !important;
-    color: #475569 !important;
-}
-
-div[data-testid="stMetricValue"] {
-    font-size: 24px !important;
-    font-weight: 800 !important;
-    color: #0f172a !important;
 }
 </style>
 """

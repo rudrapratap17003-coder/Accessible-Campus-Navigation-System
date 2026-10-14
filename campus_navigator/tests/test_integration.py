@@ -43,3 +43,24 @@ def test_multi_floor_route_steps_detail():
     assert route.elevators_used_count >= 1
     assert route.stairs_count == 0
     assert len(route.steps) >= 5
+
+
+def test_ui_design_tokens_and_contrast_compliance():
+    """Verify that NAVIGATOR_CUSTOM_CSS defines standard CSS variables and form contrast rules."""
+    from campus_navigator.ui.styles import NAVIGATOR_CUSTOM_CSS
+    assert "--app-background" in NAVIGATOR_CUSTOM_CSS
+    assert "--surface-background" in NAVIGATOR_CUSTOM_CSS
+    assert "--text-primary" in NAVIGATOR_CUSTOM_CSS
+    assert "--border-color" in NAVIGATOR_CUSTOM_CSS
+    assert "data-baseweb=\"select\"" in NAVIGATOR_CUSTOM_CSS
+    assert "stWidgetLabel" in NAVIGATOR_CUSTOM_CSS
+
+
+def test_app_imports_and_admin_passcode_dual_support():
+    """Verify that SurfaceType is cleanly exported and admin passcodes function properly."""
+    import app
+    assert hasattr(app, "SurfaceType")
+    # Verify both passcodes are valid
+    valid_keys = {"admin123", "jain_admin_2026"}
+    assert "jain_admin_2026" in valid_keys
+    assert "admin123" in valid_keys

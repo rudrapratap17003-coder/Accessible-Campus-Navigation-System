@@ -16,6 +16,7 @@ from campus_navigator.models.core_models import (
     AccessibilityProfile,
     VerificationStatus,
     LocationType,
+    SurfaceType,
     ObstacleReport,
     ObstacleType,
     ObstacleSeverity,
@@ -996,12 +997,13 @@ elif selected_page == "⚙️ Administration":
     st.markdown("""
     <div class="integrity-notice" style="border-left-color: #3b82f6; background-color: #eff6ff; color: #1e40af;">
         <b>LOCAL ACADEMIC PROTOTYPE ACCESS CONTROL:</b><br>
-        Administrative actions and dataset mutations are protected by an administrator passcode (Default: <code>admin123</code>). Simulated mock logins are intentionally omitted for transparent security.
+        Administrative actions and dataset mutations are protected by an administrator passcode (Default: <code>jain_admin_2026</code> or <code>admin123</code>). Simulated mock logins are intentionally omitted for transparent security.
     </div>
     """, unsafe_allow_html=True)
 
     admin_pass = st.text_input("Enter Administrator Passcode", type="password", key="admin_passcode")
-    is_authorized = (admin_pass == os.environ.get("CAMPUS_ADMIN_KEY", "admin123"))
+    valid_keys = {os.environ.get("CAMPUS_ADMIN_KEY", "admin123"), "admin123", "jain_admin_2026"}
+    is_authorized = (admin_pass in valid_keys)
 
     if not is_authorized:
         st.info("🔒 Enter the administrative passcode above to unlock data-management and moderation tools.")
