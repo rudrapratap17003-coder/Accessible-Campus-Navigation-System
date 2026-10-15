@@ -1,0 +1,21 @@
+# Accessible Campus Navigator - Requirements
+# =============================================
+#
+# This project uses ONLY Python standard library modules.
+# No third-party packages are required.
+#
+# Standard library modules used:
+#   - tkinter        (GUI framework)
+#   - tkinter.ttk    (themed widgets)
+#   - json           (campus data file handling)
+#   - pathlib        (file path operations)
+#   - datetime       (timestamps for issue reports)
+#   - heapq          (priority queue for Dijkstra's algorithm)
+#   - collections    (deque for BFS algorithm)
+#   - unittest       (test framework)
+#
+# To run the application:
+#   python main.py
+#
+# To run the tests:
+#   python -m unittest discover -s tests

@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessible Campus Navigator — JAIN Global Campus</title>
+  <style>
+    :root {
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --bg-card: #1e293b;
+      --bg-card-hover: #334155;
+      --border-color: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-blue: #38bdf8;
+      --accent-blue-hover: #0284c7;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-rose: #f43f5e;
+      --accent-purple: #a855f7;
+      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-stack);
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    header {
+      background-color: var(--bg-secondary);
+      border-bottom: 1px solid var(--border-color);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      font-size: 28px;
+      background: rgba(56, 189, 248, 0.15);
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    .brand-title {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: #fff;
+    }
+
+    .brand-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .header-badges {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      border: 1px solid transparent;
+    }
+
+    .badge-live {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    .badge-prototype {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+
+    .btn-header {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-header:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--text-muted);
+    }
+
+    /* Disclaimer banner */
+    .disclaimer-banner {
+      background: rgba(245, 158, 11, 0.1);
+      border-bottom: 1px solid rgba(245, 158, 11, 0.25);
+      padding: 8px 24px;
+      font-size: 12px;
+      color: #fde68a;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    /* App Layout */
+    .app-container {
+      display: grid;
+      grid-template-columns: 340px 1fr 340px;
+      flex: 1;
+      height: calc(100vh - 105px);
+      overflow: hidden;
+    }
+
+    @media (max-width: 1200px) {
+      .app-container {
+        grid-template-columns: 320px 1fr;
+        height: auto;
+        overflow: visible;
+      }
+      .panel-results {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 800px) {
+      .app-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Sidebar controls */
+    .panel-controls {
+      background-color: var(--bg-secondary);
+      border-right: 1px solid var(--border-color);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      overflow-y: auto;
+    }
+
+    .section-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #cbd5e1;
+    }
+
+    select {
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s;
+      cursor: pointer;
+    }
+
+    select:focus {
+      border-color: var(--accent-blue);
+    }
+
+    .swap-btn {
+      align-self: center;
+      background: none;
+      border: 1px solid var(--border-color);
+      color: var(--accent-blue);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .swap-btn:hover {
+      background: rgba(56, 189, 248, 0.1);
+      border-color: var(--accent-blue);
+    }
+
+    /* Mode cards */
+    .mode-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .mode-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s;
+    }
+
+    .mode-card:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: #475569;
+    }
+
+    .mode-card.active {
+      background: rgba(56, 189, 248, 0.1);
+      border-color: var(--accent-blue);
+    }
+
+    .mode-card input[type="radio"] {
+      accent-color: var(--accent-blue);
+      cursor: pointer;
+    }
+
+    .mode-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .mode-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .mode-desc {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Algorithm select */
+    .algo-chips {
+      display: flex;
+      gap: 8px;
+    }
+
+    .algo-chip {
+      flex: 1;
+      padding: 8px;
+      font-size: 11px;
+      text-align: center;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .algo-chip.active {
+      background: rgba(168, 85, 247, 0.15);
+      border-color: var(--accent-purple);
+      color: #d8b4fe;
+    }
+
+    /* Action buttons */
+    .btn-primary {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+      box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.04);
+      color: #cbd5e1;
+      border: 1px solid var(--border-color);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: #475569;
+    }
+
+    /* Obstacle box in sidebar */
+    .obstacle-box {
+      background: rgba(244, 63, 94, 0.05);
+      border: 1px solid rgba(244, 63, 94, 0.2);
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .obstacle-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .obstacle-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #fda4af;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-report {
+      background: rgba(244, 63, 94, 0.15);
+      color: #f43f5e;
+      border: 1px solid rgba(244, 63, 94, 0.3);
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-report:hover {
+      background: rgba(244, 63, 94, 0.25);
+    }
+
+    /* Map Center Panel */
+    .panel-map {
+      background-color: #0b1120;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-toolbar {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      z-index: 10;
+      display: flex;
+      gap: 8px;
+      background: rgba(30, 41, 59, 0.85);
+      backdrop-filter: blur(8px);
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+    }
+
+    .map-tool-btn {
+      background: none;
+      border: none;
+      color: #cbd5e1;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .map-tool-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    .map-legend {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      z-index: 10;
+      background: rgba(30, 41, 59, 0.85);
+      backdrop-filter: blur(8px);
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      font-size: 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    #campus-svg {
+      width: 100%;
+      height: 100%;
+      cursor: grab;
+      user-select: none;
+    }
+
+    #campus-svg:active {
+      cursor: grabbing;
+    }
+
+    /* Right Results Panel */
+    .panel-results {
+      background-color: var(--bg-secondary);
+      border-left: 1px solid var(--border-color);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      overflow-y: auto;
+    }
+
+    .route-summary-card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .metric-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 10px;
+      border-radius: 6px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .metric-val {
+      font-size: 20px;
+      font-weight: 700;
+      color: #38bdf8;
+    }
+
+    .metric-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .badge-status {
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-verified-acc {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .badge-needs-verif {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .badge-inaccessible {
+      background: rgba(244, 63, 94, 0.15);
+      color: #f43f5e;
+      border: 1px solid rgba(244, 63, 94, 0.3);
+    }
+
+    /* Turn-by-turn directions list */
+    .steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .step-item {
+      background: rgba(255, 255, 255, 0.02);
+      border-left: 3px solid var(--accent-blue);
+      border-radius: 0 6px 6px 0;
+      padding: 8px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .step-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .step-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      gap: 8px;
+    }
+
+    .step-badge {
+      display: inline-block;
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: rgba(56, 189, 248, 0.15);
+      color: #38bdf8;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      visibility: hidden;
+      opacity: 0;
+      transition: all 0.2s;
+    }
+
+    .modal-overlay.open {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .modal-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      max-width: 650px;
+      width: 100%;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-title {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .modal-close:hover {
+      color: #fff;
+    }
+
+    .modal-body {
+      padding: 20px;
+      overflow-y: auto;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #cbd5e1;
+    }
+
+    pre.report-pre {
+      background: var(--bg-primary);
+      padding: 14px;
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 12px;
+      line-height: 1.5;
+      overflow-x: auto;
+      color: #e2e8f0;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <div class="brand-icon">♿</div>
+      <div>
+        <div class="brand-title">Accessible Campus Navigator</div>
+        <div class="brand-subtitle">JAIN (Deemed-to-be University) – Global Campus, Kanakapura Road</div>
+      </div>
+    </div>
+    <div class="header-badges">
+      <span class="badge badge-live">● Localhost Active</span>
+      <span class="badge badge-prototype">Prototype Schematic</span>
+      <button class="btn-header" onclick="openAuditModal()">📊 Data Audit Report</button>
+    </div>
+  </header>
+
+  <!-- Disclaimer Banner -->
+  <div class="disclaimer-banner">
+    <span>⚠️ <strong>Academic Prototype Notice:</strong> Campus distances, travel times, and accessibility infrastructure are schematic estimates requiring on-site physical verification.</span>
+    <span style="opacity: 0.8; font-size: 11px;">Jakkasandra Post, Kanakapura Taluk</span>
+  </div>
+
+  <!-- App Body -->
+  <div class="app-container">
+
+    <!-- Left Controls Panel -->
+    <div class="panel-controls">
+
+      <!-- Navigation Setup -->
+      <div>
+        <div class="section-title">📍 Route Endpoints</div>
+        <div class="form-group" style="margin-bottom: 8px;">
+          <label for="select-start">Start Location:</label>
+          <select id="select-start">
+            <option value="">Loading campus locations...</option>
+          </select>
+        </div>
+
+        <div style="text-align: center; margin: 4px 0;">
+          <button class="swap-btn" onclick="swapLocations()">⇅ Swap</button>
+        </div>
+
+        <div class="form-group">
+          <label for="select-goal">Destination:</label>
+          <select id="select-goal">
+            <option value="">Loading campus locations...</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Accessibility Preference -->
+      <div>
+        <div class="section-title">♿ Accessibility Preference</div>
+        <div class="mode-options">
+
+          <label class="mode-card active" data-mode="standard">
+            <input type="radio" name="acc-mode" value="standard" checked>
+            <div class="mode-info">
+              <span class="mode-name">Standard Route</span>
+              <span class="mode-desc">Shortest distance; all pathways allowed</span>
+            </div>
+          </label>
+
+          <label class="mode-card" data-mode="wheelchair">
+            <input type="radio" name="acc-mode" value="wheelchair">
+            <div class="mode-info">
+              <span class="mode-name">Wheelchair Accessible</span>
+              <span class="mode-desc">Step-free; strictly avoids stairs; requires ramps</span>
+            </div>
+          </label>
+
+          <label class="mode-card" data-mode="avoid_stairs">
+            <input type="radio" name="acc-mode" value="avoid_stairs">
+            <div class="mode-info">
+              <span class="mode-name">Avoid Stairs</span>
+              <span class="mode-desc">Excludes all stairway segments</span>
+            </div>
+          </label>
+
+          <label class="mode-card" data-mode="prefer_ramps">
+            <input type="radio" name="acc-mode" value="prefer_ramps">
+            <div class="mode-info">
+              <span class="mode-name">Prefer Ramps</span>
+              <span class="mode-desc">Heavy penalty on stairs; favors ramp bypasses</span>
+            </div>
+          </label>
+
+          <label class="mode-card" data-mode="require_elevator">
+            <input type="radio" name="acc-mode" value="require_elevator">
+            <div class="mode-info">
+              <span class="mode-name">Require Elevator</span>
+              <span class="mode-desc">Mandatory for vertical/floor transitions</span>
+            </div>
+          </label>
+
+        </div>
+      </div>
+
+      <!-- Algorithm Choice -->
+      <div>
+        <div class="section-title">⚙️ Pathfinding Algorithm</div>
+        <div class="algo-chips">
+          <div class="algo-chip active" data-algo="dijkstra" onclick="selectAlgo('dijkstra')">
+            Dijkstra (Shortest)
+          </div>
+          <div class="algo-chip" data-algo="bfs" onclick="selectAlgo('bfs')">
+            BFS (Fewest Hops)
+          </div>
+          <div class="algo-chip" data-algo="compare" onclick="selectAlgo('compare')">
+            Compare Both
+          </div>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <button class="btn-primary" onclick="findRoute()">
+        <span>🧭</span>
+        <span>Find Accessible Route</span>
+      </button>
+
+      <button class="btn-secondary" onclick="resetForm()">
+        ↺ Reset Route & Selection
+      </button>
+
+      <!-- Active Obstacles Box -->
+      <div class="obstacle-box">
+        <div class="obstacle-header">
+          <span class="obstacle-title">⚠️ Active Disruption</span>
+          <button class="btn-report" onclick="openObstacleModal()">+ Report Issue</button>
+        </div>
+        <div id="obstacle-summary" style="font-size: 11px; color: #cbd5e1;">
+          No active path disruptions reported.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Center Interactive Map -->
+    <div class="panel-map">
+      <div class="map-toolbar">
+        <button class="map-tool-btn" onclick="zoomMap(1.15)" title="Zoom in">+</button>
+        <button class="map-tool-btn" onclick="zoomMap(0.85)" title="Zoom out">−</button>
+        <button class="map-tool-btn" onclick="resetMapZoom()" title="Reset view">⌂</button>
+      </div>
+
+      <div class="map-legend">
+        <div style="font-weight: 700; color: #cbd5e1; margin-bottom: 2px;">Campus Zones:</div>
+        <div class="legend-item"><span class="legend-dot" style="background: #38bdf8;"></span> Academic Facilities</div>
+        <div class="legend-item"><span class="legend-dot" style="background: #a855f7;"></span> Research Centres</div>
+        <div class="legend-item"><span class="legend-dot" style="background: #10b981;"></span> Student Life & Sports</div>
+        <div class="legend-item"><span class="legend-dot" style="background: #f59e0b;"></span> Access & Parking</div>
+        <div class="legend-item" style="margin-top: 4px;"><span style="color: #38bdf8; font-weight: bold;">━━</span> Active Nav Route</div>
+      </div>
+
+      <svg id="campus-svg" viewBox="0 0 850 650"></svg>
+    </div>
+
+    <!-- Right Route Results Panel -->
+    <div class="panel-results">
+      <div class="section-title">📋 Route Analysis</div>
+
+      <div id="results-empty" style="text-align: center; padding: 40px 10px; color: var(--text-muted);">
+        <div style="font-size: 36px; margin-bottom: 12px; opacity: 0.5;">🗺️</div>
+        <div style="font-weight: 600; color: #cbd5e1; margin-bottom: 6px;">Select Endpoints to Begin</div>
+        <div style="font-size: 12px;">Choose a start and destination or click on the map nodes to calculate an accessible route.</div>
+      </div>
+
+      <div id="results-content" style="display: none; flex-direction: column; gap: 14px;">
+
+        <!-- Status badge -->
+        <div id="route-badge-container"></div>
+
+        <!-- Metrics -->
+        <div class="metric-row">
+          <div class="metric-box">
+            <span class="metric-val" id="metric-dist">0 m</span>
+            <span class="metric-label">Estimated Distance</span>
+          </div>
+          <div class="metric-box">
+            <span class="metric-val" id="metric-time">0 min</span>
+            <span class="metric-label">Estimated Time</span>
+          </div>
+        </div>
+
+        <!-- Comparison card (if active) -->
+        <div id="compare-box" style="display: none; background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 8px; padding: 10px; font-size: 12px;">
+          <div style="font-weight: 700; color: #d8b4fe; margin-bottom: 6px;">Algorithm Comparison:</div>
+          <div id="compare-dijkstra-text">Dijkstra: ...</div>
+          <div id="compare-bfs-text">BFS: ...</div>
+        </div>
+
+        <!-- Turn by turn -->
+        <div>
+          <div class="section-title">🚶 Turn-by-Turn Navigation</div>
+          <div class="steps-list" id="steps-container"></div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Modal: Report Obstacle -->
+  <div class="modal-overlay" id="modal-obstacle">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">⚠️ Report Accessibility Disruption</div>
+        <button class="modal-close" onclick="closeObstacleModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group" style="margin-bottom: 12px;">
+          <label>Path Segment (From):</label>
+          <select id="obs-from"></select>
+        </div>
+        <div class="form-group" style="margin-bottom: 12px;">
+          <label>Path Segment (To):</label>
+          <select id="obs-to"></select>
+        </div>
+        <div class="form-group" style="margin-bottom: 12px;">
+          <label>Obstacle Type:</label>
+          <select id="obs-type">
+            <option value="ramp_damaged">Broken / Damaged Ramp</option>
+            <option value="stairs_blocked">Stairs Blocked</option>
+            <option value="elevator_out_of_service">Elevator Out of Service</option>
+            <option value="construction">Construction / Pathway Closed</option>
+            <option value="surface_hazard">Surface Water / Slippery Hazard</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label>Details / Description:</label>
+          <input type="text" id="obs-desc" placeholder="e.g., Construction work ongoing, ramp blocked by barricades" style="background: var(--bg-primary); border: 1px solid var(--border-color); color: #fff; padding: 10px; border-radius: 6px; font-size: 13px;">
+        </div>
+        <button class="btn-primary" style="width: 100%;" onclick="submitObstacle()">Submit Report & Update Routing</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Audit Report -->
+  <div class="modal-overlay" id="modal-audit">
+    <div class="modal-card" style="max-width: 750px;">
+      <div class="modal-header">
+        <div class="modal-title">📊 JAIN Global Campus Data Audit Report</div>
+        <button class="modal-close" onclick="closeAuditModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <pre class="report-pre" id="report-pre-content">Loading report...</pre>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // State
+    let campusData = null;
+    let activeObstacles = [];
+    let selectedAlgo = "dijkstra";
+    let activeRoute = null;
+
+    // SVG Transform state
+    let zoomLevel = 1.0;
+    let panX = 0;
+    let panY = 0;
+    let isPanning = false;
+    let startPoint = { x: 0, y: 0 };
+
+    // Node categories and colors
+    const categoryColors = {
+      academic: "#38bdf8",
+      research: "#a855f7",
+      student_life: "#10b981",
+      access: "#f59e0b"
+    };
+
+    // Initialize
+    window.addEventListener("DOMContentLoaded", async () => {
+      await loadCampusData();
+      await loadObstacles();
+      initRadioCards();
+      setupPanZoom();
+    });
+
+    function initRadioCards() {
+      document.querySelectorAll(".mode-card").forEach(card => {
+        card.addEventListener("click", () => {
+          document.querySelectorAll(".mode-card").forEach(c => c.classList.remove("active"));
+          card.classList.add("active");
+          const radio = card.querySelector("input[type='radio']");
+          if (radio) {
+            radio.checked = true;
+            if (activeRoute) findRoute();
+          }
+        });
+      });
+    }
+
+    async function loadCampusData() {
+      try {
+        const res = await fetch("/api/campus");
+        campusData = await res.json();
+        populateDropdowns();
+        renderMap();
+      } catch (err) {
+        console.error("Failed to load campus data:", err);
+      }
+    }
+
+    async function loadObstacles() {
+      try {
+        const res = await fetch("/api/obstacles");
+        const data = await res.json();
+        activeObstacles = data.active_obstacles || [];
+        updateObstacleUI();
+        if (campusData) renderMap();
+      } catch (err) {
+        console.error("Failed to load obstacles:", err);
+      }
+    }
+
+    function updateObstacleUI() {
+      const summaryEl = document.getElementById("obstacle-summary");
+      if (activeObstacles.length === 0) {
+        summaryEl.innerHTML = "<span style='color: #94a3b8;'>No active path disruptions reported.</span>";
+      } else {
+        summaryEl.innerHTML = activeObstacles.map(o => `
+          <div style="background: rgba(244, 63, 94, 0.1); border-radius: 4px; padding: 6px 8px; margin-bottom: 4px;">
+            <strong>${o.source} ↔ ${o.destination}</strong>: ${o.description}
+            <button onclick="resolveObstacle('${o.id}')" style="background:none; border:none; color:#38bdf8; font-size:10px; cursor:pointer; text-decoration:underline; display:block; margin-top:2px;">Resolve / Clear</button>
+          </div>
+        `).join("");
+      }
+    }
+
+    function populateDropdowns() {
+      const startSelect = document.getElementById("select-start");
+      const goalSelect = document.getElementById("select-goal");
+      const obsFrom = document.getElementById("obs-from");
+      const obsTo = document.getElementById("obs-to");
+
+      const options = campusData.locations.map(loc =>
+        `<option value="${loc.id}">${loc.name} (${loc.short_name || loc.id})</option>`
+      ).join("");
+
+      startSelect.innerHTML = `<option value="">-- Choose Start Facility --</option>` + options;
+      goalSelect.innerHTML = `<option value="">-- Choose Destination --</option>` + options;
+      obsFrom.innerHTML = options;
+      obsTo.innerHTML = options;
+
+      // Default demo endpoints: Main Entrance to Library
+      startSelect.value = "main_entrance";
+      goalSelect.value = "library";
+    }
+
+    function swapLocations() {
+      const startSelect = document.getElementById("select-start");
+      const goalSelect = document.getElementById("select-goal");
+      const tmp = startSelect.value;
+      startSelect.value = goalSelect.value;
+      goalSelect.value = tmp;
+      if (activeRoute) findRoute();
+    }
+
+    function selectAlgo(algo) {
+      selectedAlgo = algo;
+      document.querySelectorAll(".algo-chip").forEach(c => c.classList.remove("active"));
+      const target = document.querySelector(`.algo-chip[data-algo="${algo}"]`);
+      if (target) target.classList.add("active");
+      if (activeRoute) findRoute();
+    }
+
+    function resetForm() {
+      document.getElementById("select-start").value = "";
+      document.getElementById("select-goal").value = "";
+      document.getElementById("results-empty").style.display = "block";
+      document.getElementById("results-content").style.display = "none";
+      activeRoute = null;
+      renderMap();
+    }
+
+    /* Map Rendering using SVG */
+    function renderMap() {
+      if (!campusData) return;
+
+      const svg = document.getElementById("campus-svg");
+      svg.innerHTML = "";
+
+      const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+      g.setAttribute("id", "map-viewport");
+      g.setAttribute("transform", `translate(${panX}, ${panY}) scale(${zoomLevel})`);
+      svg.appendChild(g);
+
+      // Create lookup maps
+      const locById = {};
+      const locByName = {};
+      campusData.locations.forEach(l => {
+        locById[l.id] = l;
+        locByName[l.name] = l;
+      });
+
+      // 1. Draw connections / pathways
+      campusData.connections.forEach(conn => {
+        const u = locByName[conn.source];
+        const v = locByName[conn.destination];
+        if (!u || !v) return;
+
+        // Check if edge is part of active route
+        let isHighlighted = false;
+        if (activeRoute && activeRoute.path) {
+          for (let i = 0; i < activeRoute.path.length - 1; i++) {
+            const pU = activeRoute.path[i];
+            const pV = activeRoute.path[i+1];
+            if ((u.id === pU && v.id === pV) || (u.id === pV && v.id === pU)) {
+              isHighlighted = true;
+              break;
+            }
+          }
+        }
+
+        // Check if edge has an active obstacle
+        const isBlocked = activeObstacles.some(obs =>
+          (obs.source === conn.source && obs.destination === conn.destination) ||
+          (obs.source === conn.destination && obs.destination === conn.source)
+        );
+
+        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.setAttribute("x1", u.x);
+        line.setAttribute("y1", u.y);
+        line.setAttribute("x2", v.x);
+        line.setAttribute("y2", v.y);
+
+        if (isBlocked) {
+          line.setAttribute("stroke", "#f43f5e");
+          line.setAttribute("stroke-width", "4");
+          line.setAttribute("stroke-dasharray", "6,6");
+        } else if (isHighlighted) {
+          line.setAttribute("stroke", "#38bdf8");
+          line.setAttribute("stroke-width", "5");
+          line.setAttribute("stroke-linecap", "round");
+        } else {
+          line.setAttribute("stroke", "#334155");
+          line.setAttribute("stroke-width", "2.5");
+        }
+
+        g.appendChild(line);
+
+        // Add obstacle badge in middle of line if blocked
+        if (isBlocked) {
+          const midX = (u.x + v.x) / 2;
+          const midY = (u.y + v.y) / 2;
+          const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          text.setAttribute("x", midX);
+          text.setAttribute("y", midY);
+          text.setAttribute("text-anchor", "middle");
+          text.setAttribute("font-size", "14");
+          text.textContent = "⚠️";
+          g.appendChild(text);
+        }
+      });
+
+      // 2. Draw location nodes
+      const startId = document.getElementById("select-start").value;
+      const goalId = document.getElementById("select-goal").value;
+
+      campusData.locations.forEach(loc => {
+        const isStart = loc.id === startId;
+        const isGoal = loc.id === goalId;
+        const inRoute = activeRoute && activeRoute.path && activeRoute.path.includes(loc.id);
+
+        const color = categoryColors[loc.category] || "#94a3b8";
+
+        // Group container for node
+        const nodeG = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        nodeG.setAttribute("class", "node-group");
+        nodeG.style.cursor = "pointer";
+
+        nodeG.addEventListener("click", () => onNodeClicked(loc.id));
+
+        // Outer glow/ring if start or goal
+        if (isStart || isGoal) {
+          const ring = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          ring.setAttribute("cx", loc.x);
+          ring.setAttribute("cy", loc.y);
+          ring.setAttribute("r", "16");
+          ring.setAttribute("fill", "none");
+          ring.setAttribute("stroke", isStart ? "#10b981" : "#f43f5e");
+          ring.setAttribute("stroke-width", "3");
+          ring.setAttribute("stroke-dasharray", "4,4");
+          nodeG.appendChild(ring);
+        }
+
+        // Base circle
+        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute("cx", loc.x);
+        circle.setAttribute("cy", loc.y);
+        circle.setAttribute("r", inRoute ? "10" : "8");
+        circle.setAttribute("fill", color);
+        circle.setAttribute("stroke", inRoute ? "#fff" : "#1e293b");
+        circle.setAttribute("stroke-width", inRoute ? "2.5" : "1.5");
+        nodeG.appendChild(circle);
+
+        // Label text
+        const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        text.setAttribute("x", loc.x);
+        text.setAttribute("y", loc.y - 12);
+        text.setAttribute("text-anchor", "middle");
+        text.setAttribute("font-size", inRoute ? "11" : "10");
+        text.setAttribute("font-weight", inRoute ? "bold" : "600");
+        text.setAttribute("fill", inRoute ? "#fff" : "#cbd5e1");
+        text.textContent = loc.short_name || loc.name;
+        nodeG.appendChild(text);
+
+        g.appendChild(nodeG);
+      });
+    }
+
+    function onNodeClicked(locId) {
+      const startSelect = document.getElementById("select-start");
+      const goalSelect = document.getElementById("select-goal");
+
+      if (!startSelect.value || (startSelect.value && goalSelect.value)) {
+        startSelect.value = locId;
+        goalSelect.value = "";
+      } else {
+        goalSelect.value = locId;
+        findRoute();
+      }
+      renderMap();
+    }
+
+    /* Pan and Zoom */
+    function setupPanZoom() {
+      const svg = document.getElementById("campus-svg");
+
+      svg.addEventListener("mousedown", (e) => {
+        isPanning = true;
+        startPoint = { x: e.clientX - panX, y: e.clientY - panY };
+      });
+
+      window.addEventListener("mousemove", (e) => {
+        if (!isPanning) return;
+        panX = e.clientX - startPoint.x;
+        panY = e.clientY - startPoint.y;
+        updateMapTransform();
+      });
+
+      window.addEventListener("mouseup", () => {
+        isPanning = false;
+      });
+
+      svg.addEventListener("wheel", (e) => {
+        e.preventDefault();
+        const delta = e.deltaY > 0 ? 0.9 : 1.1;
+        zoomMap(delta);
+      });
+    }
+
+    function zoomMap(factor) {
+      zoomLevel = Math.max(0.6, Math.min(2.5, zoomLevel * factor));
+      updateMapTransform();
+    }
+
+    function resetMapZoom() {
+      zoomLevel = 1.0;
+      panX = 0;
+      panY = 0;
+      updateMapTransform();
+    }
+
+    function updateMapTransform() {
+      const g = document.getElementById("map-viewport");
+      if (g) {
+        g.setAttribute("transform", `translate(${panX}, ${panY}) scale(${zoomLevel})`);
+      }
+    }
+
+    /* Route Calculation */
+    async function findRoute() {
+      const start = document.getElementById("select-start").value;
+      const goal = document.getElementById("select-goal").value;
+      const modeRadio = document.querySelector("input[name='acc-mode']:checked");
+      const mode = modeRadio ? modeRadio.value : "standard";
+
+      if (!start || !goal) {
+        alert("Please select both a start location and destination.");
+        return;
+      }
+
+      try {
+        const url = `/api/route?start=${encodeURIComponent(start)}&goal=${encodeURIComponent(goal)}&mode=${encodeURIComponent(mode)}&algo=${encodeURIComponent(selectedAlgo)}`;
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (!data.success) {
+          alert(data.message || "No accessible route found.");
+          return;
+        }
+
+        activeRoute = data.primary;
+        renderMap();
+        displayResults(data);
+      } catch (err) {
+        console.error("Routing calculation failed:", err);
+      }
+    }
+
+    function displayResults(data) {
+      document.getElementById("results-empty").style.display = "none";
+      const resultsContent = document.getElementById("results-content");
+      resultsContent.style.display = "flex";
+
+      const primary = data.primary;
+      document.getElementById("metric-dist").textContent = `${primary.total_distance} m`;
+      document.getElementById("metric-time").textContent = `~${primary.estimated_time || Math.round(primary.total_distance / 60)} min`;
+
+      // Status badge
+      const badgeContainer = document.getElementById("route-badge-container");
+      const badgeKey = data.accessibility_badge || "needs_verification";
+      const badgeText = data.accessibility_badge_label || "⚠ Accessibility needs verification";
+
+      let badgeClass = "badge-needs-verif";
+      if (badgeKey === "verified_accessible") badgeClass = "badge-verified-acc";
+      else if (badgeKey === "known_inaccessible") badgeClass = "badge-inaccessible";
+
+      badgeContainer.innerHTML = `<div class="badge-status ${badgeClass}">${badgeText}</div>`;
+
+      // Compare box
+      const compareBox = document.getElementById("compare-box");
+      if (data.comparison) {
+        compareBox.style.display = "block";
+        document.getElementById("compare-dijkstra-text").innerHTML = `<strong>Dijkstra (Shortest):</strong> ${data.comparison.dijkstra.total_distance} m (~${data.comparison.dijkstra.estimated_time} min)`;
+        document.getElementById("compare-bfs-text").innerHTML = `<strong>BFS (Fewest Hops):</strong> ${data.comparison.bfs.hop_count} turns (${data.comparison.bfs.total_distance} m)`;
+      } else {
+        compareBox.style.display = "none";
+      }
+
+      // Step by step list
+      const stepsContainer = document.getElementById("steps-container");
+      stepsContainer.innerHTML = "";
+
+      if (primary.steps && primary.steps.length > 0) {
+        primary.steps.forEach(step => {
+          const div = document.createElement("div");
+          div.className = "step-item";
+          div.innerHTML = `
+            <div class="step-title">${step.instruction}</div>
+            <div class="step-meta">
+              <span>${step.distance_meters} m</span>
+              ${step.features && step.features.length ? step.features.map(f => `<span class="step-badge">${f}</span>`).join(" ") : ""}
+            </div>
+          `;
+          stepsContainer.appendChild(div);
+        });
+      } else if (primary.path && primary.path.length > 1) {
+        // Fallback for BFS or raw path
+        for (let i = 0; i < primary.path.length - 1; i++) {
+          const u = primary.path[i];
+          const v = primary.path[i+1];
+          const div = document.createElement("div");
+          div.className = "step-item";
+          div.innerHTML = `<div class="step-title">Move from ${u} to ${v}</div>`;
+          stepsContainer.appendChild(div);
+        }
+      }
+    }
+
+    /* Obstacle Modal */
+    function openObstacleModal() {
+      document.getElementById("modal-obstacle").classList.add("open");
+    }
+
+    function closeObstacleModal() {
+      document.getElementById("modal-obstacle").classList.remove("open");
+    }
+
+    async function submitObstacle() {
+      const from = document.getElementById("obs-from").value;
+      const to = document.getElementById("obs-to").value;
+      const type = document.getElementById("obs-type").value;
+      const desc = document.getElementById("obs-desc").value || "Pathway blocked";
+
+      if (from === to) {
+        alert("From and To locations must be different.");
+        return;
+      }
+
+      // Resolve human names
+      const fromLoc = campusData.locations.find(l => l.id === from);
+      const toLoc = campusData.locations.find(l => l.id === to);
+
+      try {
+        const res = await fetch("/api/obstacles", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            source: fromLoc ? fromLoc.name : from,
+            destination: toLoc ? toLoc.name : to,
+            obstacle_type: type,
+            description: desc
+          })
+        });
+        const result = await res.json();
+        closeObstacleModal();
+        await loadObstacles();
+        if (activeRoute) findRoute();
+      } catch (err) {
+        console.error("Failed to submit obstacle:", err);
+      }
+    }
+
+    async function resolveObstacle(id) {
+      try {
+        await fetch("/api/obstacles/resolve", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: id })
+        });
+        await loadObstacles();
+        if (activeRoute) findRoute();
+      } catch (err) {
+        console.error("Failed to resolve obstacle:", err);
+      }
+    }
+
+    /* Audit Report Modal */
+    async function openAuditModal() {
+      document.getElementById("modal-audit").classList.add("open");
+      try {
+        const res = await fetch("/api/report");
+        const text = await res.text();
+        document.getElementById("report-pre-content").textContent = text;
+      } catch (err) {
+        document.getElementById("report-pre-content").textContent = "Failed to load audit report.";
+      }
+    }
+
+    function closeAuditModal() {
+      document.getElementById("modal-audit").classList.remove("open");
+    }
+  </script>
+</body>
+</html>
