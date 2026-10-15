@@ -1,0 +1,26 @@
+{
+  "buildings": [
+    {
+      "building_id": "FET_MAIN",
+      "building_name": "Faculty of Engineering & Technology (FET) Complex",
+      "campus": "JAIN Global Campus",
+      "location": "Jakkasandra Post, Kanakapura Road, Ramanagara District, Karnataka, India",
+      "verification": "DEMONSTRATION",
+      "disclaimer": "DEMONSTRATION FLOOR PLAN — NOT AN OFFICIAL FET FLOOR PLAN",
+      "floors_count": 4,
+      "floors": [
+        { "floor_id": "FET_G", "level": 0, "name": "Ground Floor", "code": "G" },
+        { "floor_id": "FET_1", "level": 1, "name": "First Floor", "code": "1F" },
+        { "floor_id": "FET_2", "level": 2, "name": "Second Floor", "code": "2F" },
+        { "floor_id": "FET_3", "level": 3, "name": "Third Floor", "code": "3F" }
+      ],
+      "accessible_entrances": [
+        { "entrance_id": "INDOOR_FET_G_RAMP_ENTRY", "type": "RAMP_ENTRY", "is_step_free": true, "door_width_cm": 150.0 }
+      ],
+      "vertical_transport": {
+        "elevators": ["INDOOR_FET_G_ELEVATOR", "INDOOR_FET_1_ELEVATOR", "INDOOR_FET_2_ELEVATOR", "INDOOR_FET_3_ELEVATOR"],
+        "staircases": ["INDOOR_FET_G_STAIRS", "INDOOR_FET_1_STAIRS", "INDOOR_FET_2_STAIRS", "INDOOR_FET_3_STAIRS"]
+      }
+    }
+  ]
+}
